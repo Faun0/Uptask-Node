@@ -1,5 +1,7 @@
 const Proyectos = require('../models/proyectos');
 const Proyecto = require('../models/proyectos')
+const slug = require('slug')
+
 
 exports.proyectosHome = (req,res) => {
     res.render('index',{
