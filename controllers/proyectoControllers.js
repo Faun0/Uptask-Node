@@ -3,19 +3,25 @@ const Proyecto = require('../models/proyectos')
 const slug = require('slug')
 
 
-exports.proyectosHome = (req,res) => {
+exports.proyectosHome = async (req,res) => {
+    const proyectos = await Proyectos.findAll();
     res.render('index',{
-        nombrePagina : 'Proyectos'
+        nombrePagina : 'Proyectos',
+        proyectos 
     });
 }
 
-exports.formularioProyecto = (req,res) => {
+exports.formularioProyecto = async (req,res) => {
+    const proyectos = await Proyectos.findAll();
+
     res.render('nuevoProyecto',{
-        nombrePagina : 'Nuevo Proyecto'
+        nombrePagina : 'Nuevo Proyecto',
+        proyectos
     })
 }
 
 exports.nuevoProyecto = async (req,res) => {
+    const proyectos = await Proyectos.findAll();
     //Enviar a la consola lo que el usuario escriba
     //console.log(req.body)
 
@@ -32,7 +38,8 @@ exports.nuevoProyecto = async (req,res) => {
     if(errores.length > 0){
         res.render('nuevoProyecto', { 
             nombrePagina : 'Nuevo Proyecto',
-            errores
+            errores,
+            proyectos
         })
     }
     else{
@@ -41,4 +48,24 @@ exports.nuevoProyecto = async (req,res) => {
         const proyecto = await Proyectos.create({ nombre });
         res.redirect('/');
     }
+}
+
+exports.proyectoPorUrl =  async(req, res, nxt) => {
+
+    const proyectos = await Proyectos.findAll();
+
+    const proyecto = await Proyecto.findOne({
+        where: {
+            url: req.params.url
+        }
+    });
+
+    if(!proyectos) return next();
+
+    // render a la lista
+    res.render('tareas',{
+        nombrePagina : 'Tareas del Proyecto',
+        proyecto,
+        proyectos
+    })
 }

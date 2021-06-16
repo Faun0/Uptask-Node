@@ -18,7 +18,10 @@ module.exports = function(){
         .isEmpty()
         .trim()
         .escape(),
-    proyectosControllers.nuevoProyecto)
+    proyectosControllers.nuevoProyecto
+    );
 
+    // Listar  Proyetos
+    router.get('/proyectos/:url', proyectosControllers.proyectoPorUrl)
     return router;
 }

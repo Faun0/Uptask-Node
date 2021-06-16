@@ -17,14 +17,17 @@ html(lang="en")
                 .panel.crear-proyecto 
                     a(href ='/nuevo-proyecto' class ='boton') Nuevo Proyecto 
                         span +
+
+
                 .panel.lista-proyectos
                     h2 Proyectos
                     ul#proyectos.proyectos 
-                        li 
-                            a(href='#') Diseño de tienda
-
-                        li  
-                            a(href='#') Diseño de blog
+                        if(proyectos.length)
+                            each proyecto in proyectos     
+                                li 
+                                    a(href= `/proyectos/${proyectos.url}`)= proyecto.nombre
             block contenido
+
+            //pre= vardump(proyectos)
         
     
